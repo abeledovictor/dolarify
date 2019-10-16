@@ -26,5 +26,12 @@ namespace DolarifyApi.Controllers
             var cotizacion = await cotizacionHoyService.GetOficialMayorista<DolarDelDiaPayload[]>();
             return cotizacion;
         }
+
+        [HttpGet("{date}")]
+        public async Task<DolarDelDiaPayload> Get(string date)
+        {
+            DolarDelDiaPayload cotizacion = await cotizacionHoyService.GetOficialMayoristaByDate(date);
+            return cotizacion;
+        }
     }
 }

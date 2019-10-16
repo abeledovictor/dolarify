@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DolarifyApi.Payloads;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -25,6 +26,12 @@ namespace DolarifyApi.Services
             var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseContentRead);
             var data = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(data);
+        }
+
+        public async Task<DolarDelDiaPayload> GetOficialMayoristaByDate(string fecha)
+        {
+            var wholeList = await GetOficialMayorista<DolarDelDiaPayload[]>();
+            return wholeList.SingleOrDefault(dolar => dolar.d == fecha);
         }
     }
 }
