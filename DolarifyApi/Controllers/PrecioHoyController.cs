@@ -21,9 +21,15 @@ namespace DolarifyApi.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public async Task<DolarDelDiaPayload[]> Get()
+        public async Task<DolarDelDiaPayload[]> Get(string from, string to)
         {
-            var cotizacion = await cotizacionHoyService.GetOficialMayorista<DolarDelDiaPayload[]>();
+            DolarDelDiaPayload[] cotizacion;
+            if (string.IsNullOrEmpty(from) || string.IsNullOrEmpty(to)) {
+            cotizacion = await cotizacionHoyService.GetOficialMayorista<DolarDelDiaPayload[]>();
+            } else {
+                cotizacion = await cotizacionHoyService.GetOficialMayoristaByRange(from, to);
+            }
+
             return cotizacion;
         }
 

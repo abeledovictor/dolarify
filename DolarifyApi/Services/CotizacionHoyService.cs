@@ -33,5 +33,16 @@ namespace DolarifyApi.Services
             var wholeList = await GetOficialMayorista<DolarDelDiaPayload[]>();
             return wholeList.SingleOrDefault(dolar => dolar.d == fecha);
         }
+
+        public async Task<DolarDelDiaPayload[]> GetOficialMayoristaByRange(string from, string to)
+        {
+            var fromDate = DateTime.Parse(from);
+            var toDate = DateTime.Parse(to);
+            var wholeList = await GetOficialMayorista<DolarDelDiaPayload[]>();
+            return wholeList.Where(dolar => {
+                var dolarDate = DateTime.Parse(dolar.d);
+                return (dolarDate.Date <= toDate.Date && dolarDate.Date >= fromDate.Date);
+            }).ToArray<DolarDelDiaPayload>();
+        }
     }
 }
